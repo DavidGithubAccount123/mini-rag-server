@@ -1,0 +1,23 @@
+Emberstrike — Kira's Basic Attack
+Kira hurls a concentrated ball of fire at a single enemy, dealing moderate fire damage. Emberstrike has no cooldown and is Kira's primary damage source between ability uses. It builds a resource called Ember Charge with each cast. At 5 Ember Charges, Kira's next Emberstrike becomes a Supercharge that deals triple damage.
+
+Solarflare — Kira's Ultimate Ability
+Kira channels for 2 seconds and then detonates a massive explosion centred on herself, dealing extreme fire damage to all enemies within 12 metres. Solarflare has a 90-second cooldown. During the channel Kira is briefly vulnerable, so it is best used when Dax is holding enemy attention. Solarflare is the highest single-cast damage ability in the game.
+
+Iron Bulwark — Dax's Shield Stance
+Dax raises his shield and enters a defensive stance that reduces all incoming damage by 60% for 8 seconds. While in Iron Bulwark, Dax cannot attack but generates a taunt aura that forces nearby enemies to target him. This ability is the cornerstone of Dax's tanking kit and should be used whenever the group is taking heavy damage.
+
+Glacial Roar — Dax's Crowd Control
+Dax slams his shield into the ground, releasing a shockwave of frost energy that slows all enemies in front of him by 50% for 5 seconds. Glacial Roar has a 20-second cooldown. It pairs well with Kira's Solarflare because the slowed enemies remain in the explosion radius for the full duration.
+
+Arrow Storm — Mira's Area Attack
+Mira leaps backward and fires a rapid volley of 12 arrows in a wide arc, each dealing light damage. Arrow Storm prioritises the nearest enemies and is Mira's main tool for dealing with groups of weak foes. The leap component also helps Mira create distance from melee enemies.
+
+Wolfcall — Mira's Companion Summon
+Mira whistles to summon her wolf companion, Ash, who fights alongside her for 60 seconds. Ash can be commanded to focus a specific target, providing consistent damage and occasionally pinning enemies in place with a bite attack. If Ash is defeated, Wolfcall goes on a 45-second cooldown before Ash can be resummoned.
+
+Shadow Step — Vorn's Stealth Dash
+Vorn vanishes and dashes up to 10 metres in any direction, becoming invisible for 3 seconds after landing. If Vorn attacks while invisible, the attack deals 200% bonus damage. Shadow Step has a 12-second cooldown and is both a gap-closer and an escape tool. Mastering Shadow Step timing is the key skill difference between average and expert Vorn players.
+
+Heartseeker — Vorn's Execute Ability
+Vorn drives a dagger into a precise weak point, dealing extreme damage that scales with how low the target's health is. Against targets below 30% health, Heartseeker deals 400% of its base damage. Heartseeker has a 25-second cooldown and is designed to be the killing blow in Vorn's combo rotation. It cannot be used from stealth.

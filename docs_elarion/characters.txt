@@ -1,0 +1,11 @@
+Kira Ashveil — Pyromancer
+Kira is a battle-hardened mage who trained in the volcanic peaks of Mount Solren. She specialises in fire-based offensive magic and excels at dealing high burst damage to single targets. Her mobility is low but her damage output is unmatched among the heroes. Kira is recommended for experienced players who want an aggressive playstyle.
+
+Dax Frostholm — Warden
+Dax is a defensive warrior from the northern tundra. He carries a massive shield and focuses on protecting allies and absorbing damage. Dax has the highest health pool of all four heroes and can taunt enemies to draw their attacks. He is best played as the front-line tank in group encounters. New players often start with Dax because of his forgiving playstyle.
+
+Mira Thornweave — Ranger
+Mira grew up in the forests of Eldengrove and is a master of the bow and animal companions. She can summon a wolf to fight alongside her and attack enemies from long range. Mira has high mobility and is excellent at kiting enemies. Her weakness is low armour — if enemies close the gap she takes heavy damage. Mira is ideal for players who prefer a hit-and-run playstyle.
+
+Vorn Duskmantle — Shadow Blade
+Vorn is a rogue who uses stealth and precise strikes to eliminate high-value targets quickly. He can turn invisible for short periods and deals massive damage from behind. Vorn is a high-risk, high-reward character — he is the most difficult hero to play well but has the highest damage ceiling in the game. His health pool is the lowest of all heroes.
