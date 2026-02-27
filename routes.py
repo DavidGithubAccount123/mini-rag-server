@@ -5,6 +5,7 @@ All endpoints live here. run.py registers this router but contains
 no endpoint logic itself. To add a new endpoint: add it here.
 """
 
+import numpy as np
 from fastapi import APIRouter, HTTPException
 
 import core
@@ -12,6 +13,55 @@ from config import EMBED_MODEL, OLLAMA_MODEL
 from models import AskResponse, QueryRequest, QueryResponse
 
 router = APIRouter()
+
+SIMILARITY_THRESHOLD = 0.7
+
+# Hardcoded semantic cache.
+# Keys are example phrasings; values are (answer, sources) tuples.
+# Embeddings for each key are computed once on the first request (lazy).
+_semantic_cache: dict[str, tuple[str, list]] = {
+    "What is your favorite animal, do you like dogs?": (
+        "cached answer: Dogs are loyal, loving companions and are considered man's best friend.", []
+    ),
+    "I am really hungry, what should I eat for dinner tonight?": (
+        "cached answer: Pizza is a classic comfort food — a good margherita never disappoints.", []
+    ),
+    "The weather is terrible outside, what should I do on a rainy day?": (
+        "cached answer: Sounds like a good day to stay inside with a warm drink.", []
+    ),
+}
+
+_cache_key_embeddings: dict[str, list[float]] = {}
+
+
+def _find_in_cache(query_vec: np.ndarray) -> tuple[str, list] | None:
+    """
+    Compare a pre-computed query vector to all cached key embeddings.
+    Returns (answer, chunks) if the best match scores >= SIMILARITY_THRESHOLD,
+    otherwise returns None.
+    """
+    # Lazily embed any cache keys we haven't processed yet
+    for key in _semantic_cache:
+        if key not in _cache_key_embeddings:
+            _cache_key_embeddings[key] = core.encode_one(key)
+
+    best_score = -1.0
+    best_key = None
+
+    for key, emb in _cache_key_embeddings.items():
+        emb_vec = np.array(emb)
+        score = float(
+            np.dot(query_vec, emb_vec)
+            / (np.linalg.norm(query_vec) * np.linalg.norm(emb_vec))
+        )
+        if score > best_score:
+            best_score = score
+            best_key = key
+
+    if best_score >= SIMILARITY_THRESHOLD and best_key is not None:
+        return _semantic_cache[best_key]
+
+    return None
 
 
 @router.get("/", summary="Health check")
@@ -43,7 +93,14 @@ def ask(request: QueryRequest):
     if not question:
         raise HTTPException(status_code=400, detail="Question cannot be empty.")
 
-    chunks, raw_texts = core.retrieve(question)
+    query_vec = np.array(core.encode_one(question))
+
+    cached = _find_in_cache(query_vec)
+    if cached:
+        answer, chunks = cached
+        return AskResponse(question=question, answer=answer, sources=chunks)
+
+    chunks, raw_texts = core.retrieve_from_vector(query_vec.tolist())
     answer = core.generate(question, raw_texts)
 
     return AskResponse(question=question, answer=answer, sources=chunks)

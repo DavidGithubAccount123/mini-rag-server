@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 
 class QueryRequest(BaseModel):
-    """Incoming request body for /query and /ask endpoints."""
+    """Incoming request body for query endpoints."""
     question: str
 
     model_config = {

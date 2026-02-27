@@ -142,20 +142,13 @@ def chunk_count() -> int:
 # RETRIEVAL — embed a question and fetch matching chunks
 # ---------------------------------------------------------------------------
 
-def retrieve(question: str) -> tuple[list[RetrievedChunk], list[str]]:
+def retrieve_from_vector(query_vector: list[float]) -> tuple[list[RetrievedChunk], list[str]]:
     """
-    Embed the question and return the top K most relevant chunks.
-
-    Returns
-    -------
-    chunks    : list[RetrievedChunk] — structured results for the API response
-    raw_texts : list[str]           — plain text for building the LLM prompt
+    Fetch the top K most relevant chunks using a pre-computed query vector.
+    Use this when you have already embedded the question and don't want to embed again.
     """
-    query_vector = encode_one(question)
     results = query_chunks(query_vector, TOP_K)
 
-    # ChromaDB returns lists-of-lists for batch support.
-    # We only send one query so we unwrap the outer list with [0].
     documents = results["documents"][0]
     metadatas = results["metadatas"][0]
     distances = results["distances"][0]
@@ -170,6 +163,11 @@ def retrieve(question: str) -> tuple[list[RetrievedChunk], list[str]]:
     ]
 
     return chunks, documents
+
+
+def retrieve(question: str) -> tuple[list[RetrievedChunk], list[str]]:
+    """Embed the question then retrieve. Convenience wrapper around retrieve_from_vector."""
+    return retrieve_from_vector(encode_one(question))
 
 
 # ---------------------------------------------------------------------------
