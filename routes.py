@@ -1,17 +1,13 @@
 """
 routes.py — FastAPI route definitions.
 
-All endpoint logic lives here. server.py registers this router
-but contains no endpoint logic itself.
-
-To add a new endpoint: add it here. server.py never needs to change.
+All endpoints live here. run.py registers this router but contains
+no endpoint logic itself. To add a new endpoint: add it here.
 """
 
 from fastapi import APIRouter, HTTPException
 
-import generator
-import retriever
-import store
+import core
 from config import EMBED_MODEL, OLLAMA_MODEL
 from models import AskResponse, QueryRequest, QueryResponse
 
@@ -23,37 +19,31 @@ def health_check():
     """Returns server status and how many chunks are currently indexed."""
     return {
         "status":         "ok",
-        "chunks_indexed": store.chunk_count(),
+        "chunks_indexed": core.chunk_count(),
         "embed_model":    EMBED_MODEL,
         "ollama_model":   OLLAMA_MODEL,
     }
 
 
-@router.post("/query", response_model=QueryResponse, summary="Retrieve relevant chunks")
+@router.post("/retrieve_query", response_model=QueryResponse, summary="Retrieve relevant chunks")
 def query(request: QueryRequest):
-    """
-    Embed the question and return the top matching chunks.
-    No LLM generation — raw retrieval only.
-    """
+    """Embed the question and return the top matching chunks. No LLM generation."""
     question = request.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="Question cannot be empty.")
 
-    chunks, _ = retriever.retrieve(question)
+    chunks, _ = core.retrieve(question)
     return QueryResponse(question=question, results=chunks)
 
 
-@router.post("/ask", response_model=AskResponse, summary="Retrieve + generate an answer")
+@router.post("/rag_query", response_model=AskResponse, summary="Retrieve + generate an answer")
 def ask(request: QueryRequest):
-    """
-    Retrieve the top matching chunks, then generate a natural language
-    answer using the local Ollama model.
-    """
+    """Retrieve the top matching chunks, then generate a natural language answer."""
     question = request.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="Question cannot be empty.")
 
-    chunks, raw_texts = retriever.retrieve(question)
-    answer = generator.generate(question, raw_texts)
+    chunks, raw_texts = core.retrieve(question)
+    answer = core.generate(question, raw_texts)
 
     return AskResponse(question=question, answer=answer, sources=chunks)
