@@ -75,6 +75,18 @@ def health_check():
     }
 
 
+@router.get("/cache", summary="Inspect the semantic cache")
+def get_cache():
+    """Returns all current cache entries and how many are loaded."""
+    return {
+        "count": len(_semantic_cache),
+        "entries": [
+            {"question": key, "answer": answer}
+            for key, (answer, _) in _semantic_cache.items()
+        ],
+    }
+
+
 @router.post("/retrieve_query", response_model=QueryResponse, summary="Retrieve relevant chunks")
 def query(request: QueryRequest):
     """Embed the question and return the top matching chunks. No LLM generation."""
