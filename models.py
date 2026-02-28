@@ -41,3 +41,9 @@ class AskResponse(BaseModel):
     question: str
     answer:   str
     sources:  list[RetrievedChunk]
+
+
+class CacheEntryRequest(BaseModel):
+    """Incoming request body for POST /cache."""
+    question: str
+    answer:   str

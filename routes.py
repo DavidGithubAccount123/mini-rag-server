@@ -10,7 +10,7 @@ from fastapi import APIRouter, HTTPException
 
 import core
 from config import EMBED_MODEL, OLLAMA_MODEL
-from models import AskResponse, QueryRequest, QueryResponse
+from models import AskResponse, CacheEntryRequest, QueryRequest, QueryResponse
 
 router = APIRouter()
 
@@ -85,6 +85,18 @@ def get_cache():
             for key, (answer, _) in _semantic_cache.items()
         ],
     }
+
+
+@router.post("/cache", summary="Add a Q/A pair to the semantic cache")
+def add_to_cache(request: CacheEntryRequest):
+    """Manually add a question/answer pair to the cache. Resets on server restart."""
+    question = request.question.strip()
+    answer = request.answer.strip()
+
+    _semantic_cache[question] = (answer, [])
+    _cache_key_embeddings[question] = core.encode_one(question)
+
+    return {"added": question, "cache_size": len(_semantic_cache)}
 
 
 @router.post("/retrieve_query", response_model=QueryResponse, summary="Retrieve relevant chunks")
