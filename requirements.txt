@@ -2,3 +2,4 @@ sentence-transformers
 chromadb
 fastapi
 uvicorn
+ollama
